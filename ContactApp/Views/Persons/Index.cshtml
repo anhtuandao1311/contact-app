@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PersonResponse>
+@{
+  ViewBag.Title = "Person";
+}
+
+<h1>Person</h1>
+<table class="table w-100 mt">
+  <thead>
+    <tr>
+      <th>Person Name</th>
+      <th>Email</th>
+      <th>Date Of Birth</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Country</th>
+      <th>Address</th>
+      <th>Receive Newsletter</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(PersonResponse person in Model)
+    {
+      <tr>
+        <td>@person.PersonName</td>
+        <td>@person.Email</td>
+        <td>@person.DateOfBirth?.ToString("dd MMMM yyyy")</td>
+        <td>@person.Age</td>
+        <td>@person.Gender</td>
+        <td>@person.CountryName</td>
+        <td>@person.Address</td>
+        <td>@person.ReceiveNewsLetters</td>
+
+
+
+      </tr>
+    }
+  </tbody>
+</table>
