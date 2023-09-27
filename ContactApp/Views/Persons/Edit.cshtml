@@ -1,0 +1,122 @@
+﻿@model PersonUpdateRequest
+@{
+  ViewBag.Title = "Edit Person";
+}
+<a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Person List</a>
+<h2>Edit Person</h2>
+
+<div class="center-box">
+  <form asp-controller="Persons" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="PersonID"/>
+    <div class="flex form-field">
+      <div class="w-25">
+        <label asp-for="PersonName" class="form-label pt">Person Name</label>
+      </div>
+      <div class="flex-1">
+        <input asp-for="PersonName" class="form-input" />
+        <span asp-validation-for="PersonName" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="flex form-field">
+      <div class="w-25">
+        <label asp-for="Email" class="form-label pt">Email</label>
+      </div>
+      <div class="flex-1">
+        <input type="email" asp-for="Email" class="form-input" />
+        <span asp-validation-for="Email" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="flex form-field">
+      <div class="w-25">
+        <label asp-for="DateOfBirth" class="form-label pt">Date Of Birth</label>
+      </div>
+      <div class="flex-1">
+        <input type="date" asp-for="DateOfBirth" class="form-input" />
+        <span asp-validation-for="DateOfBirth" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="flex form-field">
+      <div class="w-25">
+        <label class="form-label pt">Gender</label>
+      </div>
+      <div class="flex-1">
+        @{
+          string[] genders = Enum.GetNames(typeof(GenderOptions));
+        }
+        <div>
+          @foreach (string gender in genders)
+          {
+            <input type="radio" asp-for="Gender" id="@gender" value="@gender" />
+            <label for="@gender" class="mr">@gender</label>
+          }
+        </div>
+        <span asp-validation-for="Gender" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="flex form-field">
+      <div class="w-25">
+        <label class="form-label pt" asp-for="CountryID">Country</label>
+      </div>
+      <div class="flex-1">
+        <select asp-for="CountryID" class="form-input" asp-items="@ViewBag.Countries">
+        </select>
+        <span asp-validation-for="CountryID" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="form-field flex">
+      <div class="w-25">
+        <label asp-for="Address" class="form-label pt">Address</label>
+      </div>
+      <div class="flex-1">
+        <textarea asp-for="Address" class="form-input"></textarea>
+        <span asp-validation-for="Address" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="form-field flex">
+      <div class="w-25">
+      </div>
+      <div class="flex-1">
+        <input asp-for="ReceiveNewsLetters" value="true" />
+        <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
+        <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
+      </div>
+    </div>
+
+    <div class="form-field flex">
+      <div class="w-25">
+      </div>
+      <div class="flex-1">
+        <button class="button button-green-back">Update</button>
+
+        @if (ViewBag.Errors != null)
+        {
+          <div class="text-red ml">
+            <ul>
+              @foreach (string error in ViewBag.Errors)
+              {
+                <li class="ml">@error</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </form>
+</div>
+
+
+@* use section to put script tags to before closing body tag *@
+@section scripts
+  {
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" integrity="sha512-FOhq9HThdn7ltbK8abmGn60A/EMtEzIzv1rvuh+DqzJtSGq8BRdEN0U+j0iKEIffiw/yEtVuladk6rsG4X6Uqg==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator.unobstrusive" asp-fallback-src="~/jquery.validate.unobstrusive.min.js"></script>
+}
