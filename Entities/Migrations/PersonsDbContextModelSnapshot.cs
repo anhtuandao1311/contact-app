@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
-    [DbContext(typeof(PersonsDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class PersonsDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -94,9 +94,21 @@ namespace Entities.Migrations
                     b.Property<bool>("ReceiveNewsLetters")
                         .HasColumnType("bit");
 
+                    b.Property<string>("TIN")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(8)")
+                        .HasDefaultValue("ABC12345")
+                        .HasColumnName("TaxIdentificationNumber");
+
                     b.HasKey("PersonID");
 
+                    b.HasIndex("TIN")
+                        .IsUnique()
+                        .HasFilter("[TaxIdentificationNumber] IS NOT NULL");
+
                     b.ToTable("Persons", (string)null);
+
+                    b.HasCheckConstraint("CHK_TIN", "len([TIN]) = 8");
 
                     b.HasData(
                         new

@@ -13,7 +13,15 @@
     <div class="navbar">
       <div class="navbar-brand">Contact Manager</div>
       <ul>
-        <li><a href="~/persons/index">Persons</a></li>
+        <li>
+          <a asp-controller="Persons" asp-action="Index">Persons</a>
+        </li>
+        <li>
+          <a asp-controller="Persons" asp-action="Create">Create Person</a>
+        </li>
+        <li>
+          <a asp-controller="Countries" asp-action="UploadFromExcel">Upload Countries</a>
+        </li>
       </ul>
     </div>
 

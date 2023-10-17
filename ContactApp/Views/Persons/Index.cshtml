@@ -2,7 +2,12 @@
 @{
   ViewBag.Title = "Person";
 }
-<a asp-controller="Persons" asp-action="Create">Create Person</a>
+<a asp-controller="Persons" asp-action="PersonsPDF">Download as PDF</a>
+<a asp-controller="Persons" asp-action="personsCSV" class="ml">Download as CSV</a>
+<a asp-controller="Persons" asp-action="personsExcel" class="ml">Download as Excel</a>
+
+
+
 <form asp-controller="Persons" asp-action="Index" method="get">
   <h1>Persons</h1>
   <div class="box flex">

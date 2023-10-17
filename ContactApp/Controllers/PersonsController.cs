@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -19,7 +20,8 @@ namespace ContactApp.Controllers
 
     [Route("[action]")]
     [Route("/")]
-    public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOrder = SortOrderOptions.ASC)
+    [HttpGet]
+    public async Task<IActionResult> Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
       ViewBag.SearchFields = new Dictionary<string, string>()
       {
@@ -31,11 +33,11 @@ namespace ContactApp.Controllers
         {nameof(PersonResponse.Address), "Address"}
       };
 
-      List<PersonResponse> allPersons = _personsService.GetFilteredPersons(searchBy, searchString);
+      List<PersonResponse> allPersons = await _personsService.GetFilteredPersons(searchBy, searchString);
       ViewBag.CurrentSearchBy = searchBy;
       ViewBag.CurrentSearchString = searchString;
 
-      List<PersonResponse> SortedPersons = _personsService.GetSortedPersons(allPersons, sortBy, sortOrder);
+      List<PersonResponse> SortedPersons = await _personsService.GetSortedPersons(allPersons, sortBy, sortOrder);
       ViewBag.CurrentSortBy = sortBy;
       ViewBag.CurrentSortOrder = sortOrder.ToString();
       return View(SortedPersons);
@@ -43,9 +45,9 @@ namespace ContactApp.Controllers
 
     [Route("[action]")]
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-      List<CountryResponse> countries = _countriesService.GetAllCountries();
+      List<CountryResponse> countries = await _countriesService.GetAllCountries();
       ViewBag.Countries = countries.Select(country => new SelectListItem { Text = country.CountryName, Value = country.CountryID.ToString() });
 
       return View();
@@ -53,11 +55,11 @@ namespace ContactApp.Controllers
 
     [Route("[action]")]
     [HttpPost]
-    public IActionResult Create(PersonAddRequest personAddRequest)
+    public async Task<IActionResult> Create(PersonAddRequest personAddRequest)
     {
       if (!ModelState.IsValid)
       {
-        List<CountryResponse> countries = _countriesService.GetAllCountries();
+        List<CountryResponse> countries = await _countriesService.GetAllCountries();
 
         ViewBag.Countries = countries.Select(country => new SelectListItem { Text = country.CountryName, Value = country.CountryID.ToString() });
 
@@ -65,16 +67,16 @@ namespace ContactApp.Controllers
         return View();
       }
 
-      PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
+      PersonResponse personResponse = await _personsService.AddPerson(personAddRequest);
 
       return RedirectToAction("Index", "Persons");
     }
 
     [HttpGet]
     [Route("[action]/{personID}")]
-    public IActionResult Edit(Guid personID)
+    public async Task<IActionResult> Edit(Guid personID)
     {
-      PersonResponse? personResponse = _personsService.GetPersonByID(personID);
+      PersonResponse? personResponse = await _personsService.GetPersonByID(personID);
       if (personResponse == null)
       {
         return RedirectToAction("Index");
@@ -82,7 +84,7 @@ namespace ContactApp.Controllers
 
       PersonUpdateRequest personUpdateRequest = personResponse.ToPersonUpdateRequest();
 
-      List<CountryResponse> countries = _countriesService.GetAllCountries();
+      List<CountryResponse> countries = await _countriesService.GetAllCountries();
 
       ViewBag.Countries = countries.Select(country => new SelectListItem { Text = country.CountryName, Value = country.CountryID.ToString() });
 
@@ -91,9 +93,9 @@ namespace ContactApp.Controllers
 
     [HttpPost]
     [Route("[action]/{personID}")]
-    public IActionResult Edit(PersonUpdateRequest personUpdateRequest)
+    public async Task<IActionResult> Edit(PersonUpdateRequest personUpdateRequest)
     {
-      PersonResponse? personResponse = _personsService.GetPersonByID(personUpdateRequest.PersonID);
+      PersonResponse? personResponse = await _personsService.GetPersonByID(personUpdateRequest.PersonID);
       if (personResponse == null)
       {
         return RedirectToAction("Index");
@@ -101,12 +103,12 @@ namespace ContactApp.Controllers
 
       if (ModelState.IsValid)
       {
-        PersonResponse updatedPerson = _personsService.UpdatePerson(personUpdateRequest);
+        PersonResponse updatedPerson = await _personsService.UpdatePerson(personUpdateRequest);
         return RedirectToAction("Index");
       }
       else
       {
-        List<CountryResponse> countries = _countriesService.GetAllCountries();
+        List<CountryResponse> countries = await _countriesService.GetAllCountries();
 
         ViewBag.Countries = countries.Select(country => new SelectListItem { Text = country.CountryName, Value = country.CountryID.ToString() });
 
@@ -117,9 +119,9 @@ namespace ContactApp.Controllers
 
     [HttpGet]
     [Route("[action]/{personID}")]
-    public IActionResult Delete(Guid? personID)
+    public async Task<IActionResult> Delete(Guid? personID)
     {
-      PersonResponse? personResponse = _personsService.GetPersonByID(personID);
+      PersonResponse? personResponse = await _personsService.GetPersonByID(personID);
       if (personResponse == null)
       {
         return RedirectToAction("Index");
@@ -128,16 +130,43 @@ namespace ContactApp.Controllers
       return View(personResponse);
     }
 
-    public IActionResult Delete(PersonUpdateRequest personupdateRequest)
+    [HttpPost]
+    [Route("[action]/{personID}")]
+    public async Task<IActionResult> Delete(PersonUpdateRequest personupdateRequest)
     {
-      PersonResponse? personResponse = _personsService.GetPersonByID(personupdateRequest.PersonID);
-      if(personResponse == null)
+      PersonResponse? personResponse = await _personsService.GetPersonByID(personupdateRequest.PersonID);
+      if (personResponse == null)
       {
         return RedirectToAction("Index");
       }
 
-      _personsService.DeletePerson(personupdateRequest.PersonID);
+      await _personsService.DeletePerson(personupdateRequest.PersonID);
       return RedirectToAction("Index");
     }
-  } 
+
+    [Route("[action]")]
+    public async Task<IActionResult> PersonsPDF()
+    {
+      List<PersonResponse> persons = await _personsService.GetAllPersons();
+      return new ViewAsPdf("PersonsPDF", persons, ViewData)
+      {
+        PageMargins = new Rotativa.AspNetCore.Options.Margins() { Top = 20, Right = 20, Bottom = 20, Left = 20 },
+        PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
+      };
+    }
+
+    [Route("[action]")]
+    public async Task<IActionResult> PersonsCSV()
+    {
+      MemoryStream memstream = await _personsService.GetPersonsCSV();
+      return File(memstream, "application/octet-stream", "persons.csv");
+    }
+
+    [Route("[action]")]
+    public async Task<IActionResult> PersonsExcel()
+    {
+      MemoryStream memstream = await _personsService.GetPersonsExcel();
+      return File(memstream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "persons.xlsx");
+    }
+  }
 }

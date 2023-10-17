@@ -5,13 +5,17 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactApp", "ContactApp\ContactApp.csproj", "{047A403D-0A95-4107-98E7-7345BA8E4B0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C66F796D-62FD-4813-B419-FE67F2AE09B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{C66F796D-62FD-4813-B419-FE67F2AE09B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{F648D3FE-2AD0-43CB-8499-343D5D03E99F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{F648D3FE-2AD0-43CB-8499-343D5D03E99F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactApp.Tests", "ContactApp.Tests\ContactApp.Tests.csproj", "{5EAB0EAA-B9B4-4518-94A9-E7357FC2EEC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactApp.Tests", "ContactApp.Tests\ContactApp.Tests.csproj", "{5EAB0EAA-B9B4-4518-94A9-E7357FC2EEC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{3F7F6189-AEAF-4B45-B528-B7EAA32311FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{3F7F6189-AEAF-4B45-B528-B7EAA32311FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{8FB50CB4-3083-4B9D-B0D9-14BB65D67A0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{58CE85E6-BE9B-48CC-9731-8643E06DE52A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{3F7F6189-AEAF-4B45-B528-B7EAA32311FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F7F6189-AEAF-4B45-B528-B7EAA32311FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F7F6189-AEAF-4B45-B528-B7EAA32311FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FB50CB4-3083-4B9D-B0D9-14BB65D67A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB50CB4-3083-4B9D-B0D9-14BB65D67A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB50CB4-3083-4B9D-B0D9-14BB65D67A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB50CB4-3083-4B9D-B0D9-14BB65D67A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58CE85E6-BE9B-48CC-9731-8643E06DE52A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58CE85E6-BE9B-48CC-9731-8643E06DE52A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58CE85E6-BE9B-48CC-9731-8643E06DE52A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58CE85E6-BE9B-48CC-9731-8643E06DE52A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
